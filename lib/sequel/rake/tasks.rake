@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 namespace Sequel::Rake.get(:namespace) do
   require "sequel"
   require "fileutils"
@@ -64,6 +63,13 @@ namespace Sequel::Rake.get(:namespace) do
     migrate(0)
     migrate
     puts "Remigration complete"
+  end
+
+  desc "Run a Sequel script"
+  task :script, [:file] => :environment do |t, args|
+    run_me = args[:file]
+    DB = connection
+    load(run_me)
   end
 
   def migrate(version = nil)
